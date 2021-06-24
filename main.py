@@ -85,6 +85,33 @@ def elaborate_new_json(old_json, new_schema):
     return clean_schema
 
 
+def annihilate(dictionary):
+    for key in dictionary.keys():
+        dictionary[key] = annihilate_element(dictionary[key])
+    return dictionary
+
+
+def annihilate_element(element):
+    if isinstance(element, dict):
+        for key in element.keys():
+            element[key] = annihilate_element(element[key])
+        return element
+    elif isinstance(element, list):
+        for k,el in enumerate(element):
+            element[k] = annihilate_element(el)
+        return element
+    else:
+        element = None
+        return element
+
+
+def test_annihilation():
+    d = {'id':'a07', 'dict':{'inn':'inner', 'inn_list':[{'num':3}, {'inn_dict':{'x':'xyy'}}, [1,{'a':2},3]]}}
+    print(json.dumps(d, indent=4))
+    annihilate_element(d)
+    print(json.dumps(d, indent=4))
+
+
 if __name__ == '__main__':
     old_schema = {'identity':
                       {'name': 'string', 'age': 'number'},
