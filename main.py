@@ -74,7 +74,7 @@ def elaborate_new_json(old_json, new_schema):
         print('The new schema contains duplicate keys')
 
     _recursive_annihilation_of_dictionary(new_schema)
-    print(f'Annihilated schema: \n{json.dumps(new_schema, indent=4)}\n')
+    # print(f'Annihilated schema: \n{json.dumps(new_schema, indent=4)}\n')
 
     updated_keys = []
     _recursive_update(old_json, new_schema, updated_keys)
@@ -120,6 +120,7 @@ if __name__ == '__main__':
     print(f'New schema not working: \n{json.dumps(new_schema_not_working, indent=4)}\n')
     new_schema_not_working = elaborate_new_json(old_json, new_schema_not_working)
     print(f'New json adapted to the new schema not working:\n{json.dumps(new_schema_not_working, indent=4)}\n')
+
     print("Notice how with the old json had an 'identity' field with subfields 'name' and 'age':\n"
           "With the first new schema no problem arose because there was no other 'identity' field,\n"
           "With the second schema the new 'identity' field is set to null because"
